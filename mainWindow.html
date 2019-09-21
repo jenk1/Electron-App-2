@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang='en'>
 <head>
   <title>ShoppingList</title>
@@ -6,6 +6,34 @@
 
 <body>
   <h1>ShoppingList</h1>
+
+  <ul></ul>
+
+  <script>
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    const ul = document.querySelector('ul');
+    // add an item
+    ipcRenderer.on('item:add', function(e, item) {
+        const li = document.createElement('li');
+        const itemText = document.createTextNode(item);
+        li.appendChild(itemText);
+        ul.appendChild(li);
+    });
+
+    // clear items
+    ipcRenderer.on('item:clear', function() {
+        ul.innerHTML = '';
+    });
+
+    //remove items
+    ul.addEventListener('dblclick', removeItem);
+
+    function removeItem(e) {
+        e.target.remove();
+    }
+
+  </script>
 </body>
 
 
